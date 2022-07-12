@@ -40,7 +40,7 @@ func TestUploadFile(t *testing.T) {
 		t.Log(err)
 	}
 
-	err = bucket.PutObjectFromFile("my-object", "LocalFile")
+	err = bucket.PutObjectFromFile("mydir/test.go", "oss_test.go")
 	if err != nil {
 		// HandleError(err)
 		t.Log(err)
