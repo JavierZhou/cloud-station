@@ -21,14 +21,12 @@ var (
 
 func TestAliOssStore_Upload(t *testing.T) {
 	should := assert.New(t)
-	err := uploader.Upload(BucketName, "test.txt", "store_test.go")
-	if should.NoError(err) {
-		t.Log("upload ok")
-	}
+	err := uploader.Upload(BucketName, "test.txt", "store_testxxx.go")
+	should.Error(err, "open store_testxxx.go: The system cannot find the file specified.")
 }
 
 func init() {
-	ali, err := aliyun.NewAliOssStore(OssEndpoint, AccessKey, AccessSecret)
+	ali, err := aliyun.NewDefaultAliOssStore()
 	if err != nil {
 		panic(err)
 	}
