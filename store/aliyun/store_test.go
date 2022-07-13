@@ -19,6 +19,15 @@ var (
 	uploader store.Uploader
 )
 
+func TestUpload(t *testing.T) {
+	should := assert.New(t)
+
+	err := uploader.Upload(BucketName, "test.txt", "store_test.go")
+	if should.NoError(err) {
+		t.Log("upload ok")
+	}
+}
+
 func TestAliOssStore_Upload(t *testing.T) {
 	should := assert.New(t)
 	err := uploader.Upload(BucketName, "test.txt", "store_testxxx.go")
