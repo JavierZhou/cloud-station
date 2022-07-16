@@ -45,11 +45,13 @@ func NewAliOssStore(opts *Options) (*AliOssStore, error) {
 	}
 	return &AliOssStore{
 		client: c,
+		listener: NewDefaultProgressListener(),
 	}, nil
 }
 
 type AliOssStore struct {
 	client *oss.Client
+	listener oss.ProgressListener
 }
 
 func (s *AliOssStore) Upload(bucketName string, objectKey string, fileName string) error {
@@ -58,10 +60,10 @@ func (s *AliOssStore) Upload(bucketName string, objectKey string, fileName strin
 		return err
 	}
 
-	err = bucket.PutObjectFromFile(objectKey, fileName)
+	err = bucket.PutObjectFromFile(objectKey, fileName, oss.Progress(s.listener))
 	if err != nil {
 		return err
-	}
+	} 
 
 	url, err := bucket.SignURL(objectKey, oss.HTTPGet, 60*60*24)
 	if err != nil {
